@@ -1,0 +1,58 @@
+﻿@using partyForm2.Services
+@using partyForm2.Database
+
+@page "/"
+
+@* Created the initial DB migration. Could not run the dotnet ef database update command. Troubleshoot and get past this*@
+
+@* Inject NavigationManager instance to post employee on PostEmployees page *@
+@inject NavigationManager Navigation
+
+@* Injecting the employee state service to save newly created employees*@
+@inject EmployeeStateService EmployeeStateService
+
+@* Injecting the employee Database context to save newly created employees into the database*@
+@inject EmployeeDbContext dbContext
+
+@rendermode InteractiveServer
+<h3>Welcome to the form</h3>
+
+<div class="add-user-form">
+	<EditForm Model="Model" FormName="AddUserForm" OnValidSubmit="Submit">
+		<DataAnnotationsValidator />
+		<ValidationSummary />
+
+		<label for="id">Employee Id</label>
+		<InputNumber id="id" @bind-Value="Model.Id" />
+
+		<label for="name">Employee Name</label>
+		<InputText id="name" @bind-Value="Model.Name" />
+
+		<label for="email">Employee Email</label>
+		<InputText id="email" @bind-Value="Model.Email" />
+
+		<button type="submit">submit</button>
+	</EditForm>
+</div>
+@*Confirmation Modal*@
+@if(showConfirmationModal)
+{
+	<div class="modal">
+		<div class="modal-content">
+			<h4>Are you sure you want to clear the database completely?</h4>
+			<button @onclick="clearEmployeesConfirmed">Yes</button>
+			<button @onclick="cancelClear">No</button>
+		</div>
+	</div>
+}
+
+
+@if(!string.IsNullOrEmpty(SubmissionResult))
+{
+	<p>@SubmissionResult</p>
+}
+
+<button @onclick="gotoEmployeesPage">View Employees</button>
+
+<button @onclick="clearAllEmployees">Clear Employee List</button>
+

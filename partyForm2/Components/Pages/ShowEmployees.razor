@@ -1,0 +1,37 @@
+﻿@using partyForm2.Services;
+@page "/employees"
+@inject EmployeeDBService EmployeeDBService
+@inject NavigationManager Navigation
+
+<h3>Current Employees</h3>
+
+@if(employees == null)
+{
+	<p><em>Loading...</em></p>
+}
+else if(employees.Count == 0)
+{
+	<p>no employees found</p>
+}
+else
+{
+	<table>
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Name</th>
+				<Email>Email</Email>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach(var employee in employees)
+			{
+				<tr>
+					<td>@employee.Id</td>
+					<td>@employee.Name</td>
+					<td>@employee.Email</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}

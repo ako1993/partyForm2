@@ -1,0 +1,23 @@
+﻿@using partyForm2.Services
+
+@page "/postemployees"
+@* Need to inject the NavigationManager instance here like in the AddUser form page  *@
+@inject NavigationManager Navigation
+
+@* Injecting the employee state service to retrieve employee information and display it*@
+@inject EmployeeStateService EmployeeStateService
+
+<h3>New Employee information</h3>
+
+@if(Employee != null)
+{
+	<p>Employee Id : @Employee.Id</p>
+	<p>Employee Name : @Employee.Name</p>
+	<p>Employee Email : @Employee.Email</p>
+}
+else
+{
+	<p>No employee data found</p>
+}
+
+<button @onclick="showEmployees">View Employees</button>
