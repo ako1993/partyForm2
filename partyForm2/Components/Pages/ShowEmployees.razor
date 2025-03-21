@@ -2,6 +2,7 @@
 @page "/employees"
 @inject EmployeeDBService EmployeeDBService
 @inject NavigationManager Navigation
+@rendermode InteractiveServer
 
 <h3>Current Employees</h3>
 
@@ -20,7 +21,7 @@ else
 			<tr>
 				<th>ID</th>
 				<th>Name</th>
-				<Email>Email</Email>
+				<th>Email</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -35,3 +36,4 @@ else
 		</tbody>
 	</table>
 }
+<button type="submit" @onclick="goHome">Home</button>

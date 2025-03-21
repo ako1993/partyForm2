@@ -14,8 +14,9 @@
 @* Injecting the employee Database context to save newly created employees into the database*@
 @inject EmployeeDbContext dbContext
 
+@*If you don't make components interactive, navigation will not work!*@
 @rendermode InteractiveServer
-<h3>Welcome to the form</h3>
+<h3 class="welcome">Welcome to the form</h3>
 
 <div class="add-user-form">
 	<EditForm Model="Model" FormName="AddUserForm" OnValidSubmit="Submit">
@@ -46,13 +47,55 @@
 	</div>
 }
 
+@if (showSearchModal)
+{
+	<div class="modal">
+		<div class="modal-content">
+			<h4>Enter employee by first name</h4>
+			<label for="searchName">Enter name</label>
+			<input id="searchName" @bind="searchNameInput">@*This is how you can bind a value to a variable*@
+			<button @onclick="closeSearchModal">Close</button>
+			<button @onclick="searchForEmployee">Search</button>
+		</div>
 
-@if(!string.IsNullOrEmpty(SubmissionResult))
+	</div>
+}
+@if (searchResultsList != null && searchResultsList.Any())
+{
+	<h4>Search Results</h4>
+	<ul>
+		@foreach (var employee in searchResultsList)
+		{
+			<li>@employee.Name - @employee.Email</li>
+			<p>@SubmissionResult</p>
+		}
+	</ul>
+}
+else if (!string.IsNullOrEmpty(SubmissionResult))
 {
 	<p>@SubmissionResult</p>
+}
+
+@if (showDeleteModal)
+{
+	<div class="modal">
+		<div class="modal-content">
+			<h4>Enter the name of the employee to delete</h4>
+			<label for="deleteName">Enter name</label>
+			<input id="deleteName" @bind="deleteNameInput">
+			<button @onclick="closeDeleteModal">Close</button>
+			<button @onclick="deleteEmployee">Delete</button>
+		</div>
+
+	</div>
 }
 
 <button @onclick="gotoEmployeesPage">View Employees</button>
 
 <button @onclick="clearAllEmployees">Clear Employee List</button>
+
+<button @onclick="openSearchModal">Search</button>
+
+<button @onclick="openDeleteModal">Delete</button>
+
 

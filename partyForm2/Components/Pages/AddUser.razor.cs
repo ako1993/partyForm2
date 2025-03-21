@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics;
+using System.Diagnostics.Eventing.Reader;
 using Microsoft.AspNetCore.Components;
+using Microsoft.EntityFrameworkCore;
 using partyForm2.Data;
 
 namespace partyForm2.Components.Pages
@@ -10,6 +12,16 @@ namespace partyForm2.Components.Pages
         private string SubmissionResult { get; set; } = string.Empty;
 
         private bool showConfirmationModal = false; //flag to control the modal visibility
+
+        private bool showSearchModal = false;
+
+        private bool showDeleteModal = false;
+
+        private List<Employee> searchResultsList = new List<Employee>();
+
+        private string searchNameInput;//store the value entered in the search field
+
+        private string deleteNameInput;
         private async Task Submit()
         {
             //Store newly created employee in the state service
@@ -61,6 +73,83 @@ namespace partyForm2.Components.Pages
         public void cancelClear() //This will be called when the user clicks "no" in the confirmation modal
         {
             showConfirmationModal = false;
+        }
+
+        public void openSearchModal()
+        {
+            showSearchModal = true;
+        }
+
+        public void openDeleteModal()
+        {
+            showDeleteModal = true;
+        }
+
+        public async Task searchForEmployee()
+        {
+            var searchName = searchNameInput;
+            if (!string.IsNullOrEmpty(searchName))
+            {
+                //Query the database for employees with a matching first name
+                var searchResults = await dbContext.Employees
+                    .Where(e => e.Name.Contains(searchName))
+                    .ToListAsync();
+
+                if (searchResults.Any())
+                {
+                    searchResultsList = searchResults; //This will hold the results to display them in the UI
+                    SubmissionResult = $"{searchResults.Count} employees found!";
+                    showSearchModal = false;
+                }
+                else
+                {
+                    SubmissionResult = "No employees found with that name";
+                    searchResultsList.Clear();
+                    showSearchModal = false;
+                }
+            }
+            else
+            {
+                SubmissionResult = "Please enter a name to search";
+                showSearchModal = false;
+            }
+           
+        }
+
+        private async Task deleteEmployee()
+        {
+            var nameToDelete = deleteNameInput;
+            if(!string.IsNullOrEmpty(nameToDelete))
+            {
+                //Find employees by first name
+                var employeesToDelete = await dbContext.Employees
+                    .Where(e => e.Name.Contains(nameToDelete))
+                    .ToListAsync();
+                if (employeesToDelete.Any())
+                {
+                    //Delete employees from the database
+                    dbContext.Employees.RemoveRange(employeesToDelete);
+                    await dbContext.SaveChangesAsync();
+
+
+                    SubmissionResult = $"{employeesToDelete.Count} employee(s) deleted successfully.";
+                }
+                else
+                {
+                    SubmissionResult = "No Employees found with that name";
+                }
+                showDeleteModal = false;
+            }
+        }
+        public void closeSearchModal()
+        {
+            showSearchModal = false;
+            
+        }
+
+        public void closeDeleteModal()
+        {
+            showDeleteModal = false;
         }
     }
 }

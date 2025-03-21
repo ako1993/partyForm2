@@ -1,3 +1,21 @@
+.welcome {
+    text-align: center; /* Center the text */
+    margin-bottom: 20px; /* Space between the welcome message and the form */
+    font-size: 24px; /* Adjust font size */
+    color: #333; /* Optional: Set a color for the text */
+    width: 100%; /* Ensure h3 is treated as a block element */
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full viewport height */
+    margin: 0;
+    background-color: #f4f4f4; /* Optional background color */
+    flex-direction: column; /* Align items vertically */
+}
+
 h1:focus {
     outline: none;
 }
@@ -53,8 +71,88 @@ form{
     text-align: center;
 }
 
-.add-user-form{
+.add-user-form {
     display: block;
-    margin-left: auto;
-    margin-right: auto;
+    padding: 20px;
+    margin: 20px auto; /* Space around the form */
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 400px; /* Limit the width of the form */
+    width: 100%;
 }
+
+    /* Centering the text inside the form elements */
+    .add-user-form label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+    }
+
+    .add-user-form input,
+    .add-user-form button {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 12px;
+        margin-top: 4px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    /* Button Styling */
+    .add-user-form button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+
+        .add-user-form button:hover {
+            background-color: #0056b3;
+        }
+
+/* Modal Styling*/
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+}
+
+.modal button {
+    margin: 10px 5px;
+}
+
+button {
+    background-color: #28a745; /* Green button for actions */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px; /* Adds space above the buttons */
+    display: block;
+    width: 200px; /* Optional: Control button width */
+    margin-left: auto;
+    margin-right: auto; /* Center the buttons */
+}
+
+    button:hover {
+        background-color: #218838; /* Darker green on hover */
+    }

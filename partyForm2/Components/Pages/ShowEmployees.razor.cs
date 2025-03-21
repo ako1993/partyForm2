@@ -10,5 +10,10 @@ namespace partyForm2.Components.Pages
         {
             employees = await EmployeeDBService.GetAllEmployeesAsync();
         }
+
+        public void goHome()
+        {
+            Navigation.NavigateTo("/");
+        }
     }
 }
